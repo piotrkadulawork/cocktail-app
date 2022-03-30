@@ -56,14 +56,16 @@ function addCocktail(cocktailData, random = false) {
     `;
 
     const btn = cocktail.querySelector(".cocktail-body .fav-btn");
-    btn.addEventListener("click", () => {
+    btn.addEventListener('click', () => {
         if(btn.classList.contains('active')) {
             removeCocktailFromLS(cocktailData.idDrink)
-            btn.classList.remove("active");
+            btn.classList.remove('active');
         } else {
             addCocktailToLS(cocktailData.idDrink)
-            btn.classList.add("active");
+            btn.classList.add('active');
         }
+
+        fetchFavCocktails();
     });
 
     cocktails.appendChild(cocktail);
@@ -91,8 +93,9 @@ function getCocktailFromLS() {
 }
 
 async function fetchFavCocktails() {
-    const cocktailIds = getCocktailFromLS();
+    favouriteContainer.innerHTML = '';
 
+    const cocktailIds = getCocktailFromLS();
     const cocktails = [];
 
     for(let i=0; i<cocktailIds.length; i++) {
@@ -107,12 +110,17 @@ function addCocktailToFav(cocktailData) {
     const favCocktail = document.createElement('li');
 
     favCocktail.innerHTML = `
-    <li>
         <img src="${cocktailData.strDrinkThumb}"
         alt="${cocktailData.strDrink}">
         <span>${cocktailData.strDrink}</span>
-    </li>
+        <button class="clear"><i class="fas fa-window-close"></i></button>
     `;
+    
+    const btn = favCocktail.querySelector('.clear')
+    btn.addEventListener('click', () =>{
+        removeCocktailFromLS(cocktailData.idDrink);
 
+        fetchFavCocktails();
+    })
     favouriteContainer.appendChild(favCocktail);
 }

@@ -68,8 +68,25 @@ header button {
 }
 
 .fav-cocktails li {
+    position: relative;
     margin: 5px;
     width: 75px;
+}
+
+.fav-cocktails li .clear {
+    background-color: transparent;
+    border: 0;
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    top: -0.5rem;
+    right: -0.5rem;
+    font-size: 1.2rem;
+
+}
+
+.fav-cocktails li:hover .clear {
+    opacity: 1;
 }
 
 .fav-cocktails li img {
@@ -82,7 +99,7 @@ header button {
 }
 
 .fav-cocktails li span {
-    font-size: 0.8 rem;
+    font-size: 0.9 rem;
 }
 
 .cocktail {
