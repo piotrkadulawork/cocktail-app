@@ -12,7 +12,7 @@
     <body>
         <div class="mobile-container">
             <header>
-                <input type="text">
+                <input type="text" id="search-term">
                 <button id="search"><i class="fas fa-search"></i></button>
             </header>
             <div class="fav-container">
@@ -20,6 +20,12 @@
                 <ul class="fav-cocktails" id="fav-cocktails"></ul>
             </div>
             <div class="cocktails" id="cocktails"></div>
+        </div>
+        <div class="popup-container hidden" id="cocktail-popup">
+            <div class="popup">
+                <button id="close-popup" class="close-popup"><i class="fas fa-times"></i></button>
+                <div class="cocktail-info" id="cocktail-info"></div>
+            </div>
         </div>
     </body>
 </html>
