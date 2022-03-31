@@ -1,5 +1,10 @@
-const cocktails = document.getElementById('cocktails');
+const cocktailsEl = document.getElementById('cocktails');
 const favouriteContainer = document.getElementById('fav-cocktails');
+const searchTerm = document.getElementById("search-term");
+const searchBtn = document.getElementById("search");
+const cocktailPopup = document.getElementById("cocktail-popup");
+const cocktailInfoEl = document.getElementById("cocktail-info");
+const closePopupBtn = document.getElementById("close-popup");
 
 getRandomCocktail();
 fetchFavCocktails();
@@ -10,9 +15,6 @@ async function getRandomCocktail() {
     );
     const respData = await resp.json();
     const randomCocktail = respData.drinks[0]
-    
-    console.log(randomCocktail);
-
     addCocktail(randomCocktail, true);
 }
 
@@ -27,15 +29,18 @@ async function getCocktailById(id) {
     return cocktail
 }
 
-async function getCocktailBySearch(term) {
-    const cocktails = await fetch(
+async function getCocktailsBySearch(term) {
+    const resp = await fetch(
         'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + term
     );
+
+    const respData = await resp.json();
+    const cocktails = respData.drinks;
+
+    return cocktails;
 }
 
 function addCocktail(cocktailData, random = false) {
-    console.log(cocktailData);
-
     const cocktail = document.createElement('div');
     cocktail.classList.add('cocktail');
 
@@ -68,7 +73,40 @@ function addCocktail(cocktailData, random = false) {
         fetchFavCocktails();
     });
 
-    cocktails.appendChild(cocktail);
+    cocktail.addEventListener('click', () => {
+        showCocktailInfo(cocktailData);
+    });
+
+    cocktailsEl.appendChild(cocktail);
+}
+
+function showCocktailInfo(cocktailData) {
+    cocktailInfoEl.innerHTML = '';
+    const cocktailEl = document.createElement('div');
+    const ingredients = [];
+
+    for(let i=1; i<15; i++) {
+        if(cocktailData['strIngredient'+i]) {
+            ingredients.push(`${cocktailData['strIngredient'+i]} / ${cocktailData['strMeasure'+i]}`)
+        } else {
+            break;
+        }
+    }
+
+    cocktailEl.innerHTML = `
+    <h1>${cocktailData.strDrink}</h1>
+    <img src="${cocktailData.strDrinkThumb}" alt=${cocktailData.strDrink}>
+    <p>${cocktailData.strInstructions}</p>
+    <h3>Ingredients:</h3>
+    <ul>
+        ${ingredients.map(ing => `
+        <li>${ing}</li>
+        `).join("")}
+    </ul>
+    `;
+
+    cocktailInfoEl.appendChild(cocktailEl);
+    cocktailPopup.classList.remove('hidden');
 }
 
 function addCocktailToLS(cocktailId) {
@@ -121,6 +159,28 @@ function addCocktailToFav(cocktailData) {
         removeCocktailFromLS(cocktailData.idDrink);
 
         fetchFavCocktails();
-    })
+    });
+
+    favCocktail.addEventListener('click', () => {
+        showCocktailInfo(cocktailData);
+    });
+
     favouriteContainer.appendChild(favCocktail);
 }
+
+searchBtn.addEventListener('click', async () => {
+    cocktailsEl.innerHTML = '';
+    const search = searchTerm.value;
+    const cocktails = await getCocktailsBySearch(search);
+
+    if(cocktails) {
+        cocktails.forEach((cocktail) => {
+            addCocktail(cocktail);
+        });
+    }
+});
+
+closePopupBtn.addEventListener('click', () =>{
+    cocktailPopup.classList.add('hidden');
+
+});
