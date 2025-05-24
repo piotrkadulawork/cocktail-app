@@ -17,9 +17,11 @@ Aplikacja webowa pozwalająca na wyszukiwanie przepisów na koktajle przy użyci
    ```bash
    git clone https://github.com/piotrkadulawork/cocktail-app.git
 2. Przejdź do katalogu projektu:<br>
+   ```bash
    cd cocktail-app
 3. Otwórz plik index.html w przeglądarce internetowej.<br>
    Możesz również skorzystać z rozszerzenia VS Code "Live Server" lub uruchomić prosty serwer HTTP:<br>
+   ```bash
    python3 -m http.server<br>
    Następnie otwórz http://localhost:8000 w przeglądarce.
 
