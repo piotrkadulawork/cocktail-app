@@ -23,7 +23,7 @@ Aplikacja webowa pozwalająca na wyszukiwanie przepisów na koktajle przy użyci
    Możesz również skorzystać z rozszerzenia VS Code "Live Server" lub uruchomić prosty serwer HTTP:<br>
    ```bash
    python3 -m http.server  
-   
+   ```
    Następnie otwórz http://localhost:8000 w przeglądarce.
 
 🧪 Funkcjonalności
